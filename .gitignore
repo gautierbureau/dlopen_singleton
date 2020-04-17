@@ -1,0 +1,6 @@
+Base/.idea/
+Base/cmake-build-debug-static/
+Base/cmake-build-debug/
+SolutionLinux/.idea/
+SolutionLinux/cmake-build-debug-static/
+SolutionLinux/cmake-build-debug/
