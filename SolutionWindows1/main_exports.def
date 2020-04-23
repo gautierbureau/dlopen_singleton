@@ -1,0 +1,5 @@
+EXPORTS
+	getLogInstance
+	destroyLog
+	?log@Log@@SAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
+    ?setPointerToInstance@Log@@QEAAXPEAPEAV1@@Z
