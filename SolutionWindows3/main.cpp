@@ -27,18 +27,18 @@ static const char extension[] = ".so";
 }
 
 int main() {
-	
+
 	std::string name = "./lib" + std::string(sharedLibraryExtension());
-	
+
 	create_t* create_lib;
 	destroy_t* destroy_lib;
-	
+
 	#ifdef WIN32
 	HINSTANCE handle;
 	#else
 	void* handle;
     #endif
-	
+
 	#ifdef WIN32
     handle = LoadLibrary(TEXT(name.c_str()));
     if (!handle) {
@@ -61,34 +61,34 @@ int main() {
 		std::cerr << "Cannot load library: " << dlerror() << '\n';
 		return 1;
 	}
-	create_t* create_lib = (create_t*) dlsym(handle, "create");
+	create_lib = (create_t*) dlsym(handle, "create");
 	if (!create_lib) {
 		std::cerr << "Cannot load symbols: " << dlerror() << '\n';
 		return 1;
 	}
-	destroy_t* destroy_lib = (destroy_t*) dlsym(handle, "destroy");
+	destroy_lib = (destroy_t*) dlsym(handle, "destroy");
 	if (!destroy_lib) {
 		std::cerr << "Cannot load symbols: " << dlerror() << '\n';
 		return 1;
 	}
 	#endif
-	
+
 	Log::init();
-    
+
 	Log::log("Log from main");
-  
+
 	// create an instance of the class
 	Lib* lib = create_lib();
 
 	lib->print();
-	
-	destroy_lib(lib); 
-	
+
+	destroy_lib(lib);
+
 	#ifdef WIN32
 	FreeLibrary(handle);
 	#else
 	dlclose(handle);
 	#endif
-	
+
   return 0;
 }

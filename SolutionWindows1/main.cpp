@@ -61,12 +61,12 @@ int main() {
 		std::cerr << "Cannot load library: " << dlerror() << '\n';
 		return 1;
 	}
-	create_t* create_lib = (create_t*) dlsym(handle, "create");
+	create_lib = (create_t*) dlsym(handle, "create");
 	if (!create_lib) {
 		std::cerr << "Cannot load symbols: " << dlerror() << '\n';
 		return 1;
 	}
-	destroy_t* destroy_lib = (destroy_t*) dlsym(handle, "destroy");
+	destroy_lib = (destroy_t*) dlsym(handle, "destroy");
 	if (!destroy_lib) {
 		std::cerr << "Cannot load symbols: " << dlerror() << '\n';
 		return 1;
