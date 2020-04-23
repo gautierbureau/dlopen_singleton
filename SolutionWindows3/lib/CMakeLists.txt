@@ -11,8 +11,14 @@ target_include_directories(lib
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
   
-target_include_directories(lib PUBLIC $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
-target_link_libraries(lib PRIVATE dlopen_singleton)
+if(LIBRARY_TYPE STREQUAL "STATIC")
+  target_include_directories(lib PUBLIC $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
+  if(MSVC OR APPLE)
+    target_link_libraries(lib PRIVATE dlopen_singleton)
+  endif()
+else()
+  target_link_libraries(lib PRIVATE log)
+endif()
 
 set_target_properties(lib PROPERTIES PREFIX "")
 if(APPLE)

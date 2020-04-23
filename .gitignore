@@ -7,3 +7,5 @@ build
 build-static
 install
 install-static
+clean.sh
+clean.cmd

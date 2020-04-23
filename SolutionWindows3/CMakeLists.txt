@@ -19,7 +19,9 @@ set(LIBRARY_TYPE SHARED CACHE STRING "Choose either STATIC or SHARED.")
 set(MSVC_STATIC_RUNTIME_LIBRARY OFF CACHE BOOL "Choose either ON or OFF.")
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)    # export all symbols from dll on Windows
-set(CMAKE_ENABLE_EXPORTS ON)                # export all symbols from exe on Windows
+if(LIBRARY_TYPE STREQUAL "STATIC")
+  set(CMAKE_ENABLE_EXPORTS ON)                # export all symbols from exe on Windows
+endif()
 
 if(UNIX)
   set(CMAKE_SKIP_BUILD_RPATH FALSE)
@@ -68,7 +70,9 @@ add_subdirectory(lib)
 
 add_executable(dlopen_singleton main.cpp main_exports.def)
 add_dependencies(dlopen_singleton log)
+
 target_link_libraries(dlopen_singleton PRIVATE ${CMAKE_DL_LIBS})
+
 if(LIBRARY_TYPE STREQUAL "STATIC")
   if(MSVC)
     target_link_libraries(dlopen_singleton PRIVATE "-DEF:${CMAKE_CURRENT_SOURCE_DIR}/main_exports.def")
@@ -83,9 +87,13 @@ if(LIBRARY_TYPE STREQUAL "STATIC")
 else()
   target_link_libraries(dlopen_singleton PRIVATE log)
 endif()
+
 target_include_directories(dlopen_singleton PRIVATE $<TARGET_PROPERTY:lib,INTERFACE_INCLUDE_DIRECTORIES>)
+
 if(NOT MSVC)
-  target_link_options(dlopen_singleton PUBLIC "-rdynamic")
+  if(LIBRARY_TYPE STREQUAL "STATIC")
+    target_link_options(dlopen_singleton PUBLIC "-rdynamic")
+  endif()
 endif()
 
 install(TARGETS dlopen_singleton DESTINATION bin)
