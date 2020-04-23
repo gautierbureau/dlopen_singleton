@@ -5,6 +5,7 @@
 #ifndef DLOPEN_SINGLETON_LIB_HPP
 #define DLOPEN_SINGLETON_LIB_HPP
 
+#include "Log.hpp"
 
 class Lib {
  public:
@@ -21,7 +22,8 @@ class Lib {
   Lib& operator=(Lib&&) noexcept = delete;
 
   virtual void print() = 0;
+  
+  virtual void init(Log** log) = 0;
 };
-
 
 #endif //DLOPEN_SINGLETON_LIB_HPP

@@ -10,3 +10,13 @@ target_include_directories(log
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
+  
+target_link_libraries(log PRIVATE Boost::log)
+
+if(LIBRARY_TYPE STREQUAL "SHARED")
+  if(MSVC)
+    install(TARGETS log DESTINATION bin)
+  else()
+    install(TARGETS log DESTINATION lib)
+  endif()
+endif()

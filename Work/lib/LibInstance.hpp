@@ -22,11 +22,13 @@ class LibInstance : public Lib {
   LibInstance& operator=(LibInstance&&) noexcept = delete;
 
   void print();
+  
+  void init(Log** log);
 
 };
 
 // the types of the class factories
-typedef LibInstance* create_t();
-typedef void destroy_t(LibInstance*);
+typedef Lib* create_t();
+typedef void destroy_t(Lib*);
 
 #endif //DLOPEN_SINGLETON_LIBINSTANCE_HPP
