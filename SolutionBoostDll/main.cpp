@@ -1,12 +1,3 @@
-#ifdef WIN32
-#include <direct.h>
-#include <windows.h>
-#else
-#include <sys/types.h>
-#include <dlfcn.h>
-#endif
-
-#include <iostream>
 #include <boost/dll/import.hpp>
 #include <boost/dll/shared_library.hpp>
 #include <boost/function.hpp>
@@ -47,7 +38,7 @@ int main() {
     throw std::runtime_error("No symbol destroy in plugin.");
 
   Log::init();
-  
+
   Trace("Log from main");
 
   // create an instance of the class

@@ -4,15 +4,9 @@
 
 #include <iostream>
 
-#include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
-#include <boost/log/expressions.hpp>
-#include <boost/log/sinks/text_file_backend.hpp>
-#include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
-#include <boost/log/sources/record_ostream.hpp>
-#include <boost/log/sources/logger.hpp>
-#include <boost/log/sources/global_logger_storage.hpp>
+#include <boost/log/utility/setup/file.hpp>
 
 #include "Log.hpp"
 
@@ -27,11 +21,11 @@ void Log::init() {
 void Log::init_() {
 	boost::log::add_file_log("sample.log");
 
-    boost::log::core::get()->set_filter
-    (
-        boost::log::trivial::severity >= boost::log::trivial::info
-    );
-    boost::log::add_common_attributes();
+  boost::log::core::get()->set_filter
+  (
+    boost::log::trivial::severity >= boost::log::trivial::info
+  );
+  boost::log::add_common_attributes();
 }
 
 void Log::log(const std::string& message) {
@@ -39,10 +33,9 @@ void Log::log(const std::string& message) {
 }
 
 void Log::log_(const std::string& message) {
-
 	boost::log::sources::severity_logger< boost::log::trivial::severity_level > lg;
 
-    BOOST_LOG_SEV(lg, boost::log::trivial::info) << message;
+	BOOST_LOG_SEV(lg, boost::log::trivial::info) << message;
 }
 
 Log&
