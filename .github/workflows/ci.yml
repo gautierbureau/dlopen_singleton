@@ -117,9 +117,3 @@ jobs:
         run: |
           set CL=/MP
           cmake --build %GITHUB_WORKSPACE%\build-windows --parallel 3
-
-      - name: Run
-       shell: cmd
-       run: |
-         cd %GITHUB_WORKSPACE%\install-static\bin
-         dlopen_singleton
