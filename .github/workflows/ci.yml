@@ -19,9 +19,9 @@ jobs:
           wget --timeout 10 --tries 3 ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
-          ./bootstrap.sh --prefix=$GITHUB_WORKSPACE/boost cxxstd=11 --without-icu --with-toolset=gcc --with-libraries=filesystem,program_options,serialization,system,log,iostreams
+          ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=gcc --with-libraries=filesystem,program_options,serialization,system,log,iostreams
           ./b2 -j 3 cxxflags="-std=c++11" toolset=gcc variant=release install
-          ls $GITHUB_WORKSPACE/boost/lib/cmake
+          ls $HOME/boost/lib/cmake/Boost-1.70.0
 
       - name: Checkout sources
         uses: actions/checkout@v1
@@ -30,7 +30,7 @@ jobs:
         run: >
           cmake -S $GITHUB_WORKSPACE/SolutionBoostDll -B $GITHUB_WORKSPACE/build-linux
           -DLIBRARY_TYPE=STATIC
-          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install
+          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-static
           -DBoost_DIR=$GITHUB_WORKSPACE/boost/lib/cmake/Boost-1.70.0
           -G "Unix Makefiles"
 
@@ -39,7 +39,7 @@ jobs:
 
       - name: Run
         run: |
-          cd $GITHUB_WORKSPACE/install/bin
+          cd $GITHUB_WORKSPACE/install-static/bin
           ./dlopen_singleton
   macos:
     name: MacOS
@@ -54,7 +54,7 @@ jobs:
           wget --timeout 10 --tries 3 ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
-          ./bootstrap.sh --prefix=$GITHUB_WORKSPACE/boost cxxstd=11 --without-icu --with-toolset=clang --with-libraries=filesystem,program_options,serialization,system,log,iostreams
+          ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=clang --with-libraries=filesystem,program_options,serialization,system,log,iostreams
           ./b2 -j 3 cxxflags="-std=c++11" toolset=clang variant=release install
 
       - name: Checkout sources
@@ -64,6 +64,7 @@ jobs:
         run: >
           cmake -S $GITHUB_WORKSPACE/SolutionBoostDll -B $GITHUB_WORKSPACE/build-macos
           -DLIBRARY_TYPE=STATIC
+          -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install
           -DBoost_DIR=$GITHUB_WORKSPACE/boost/lib/cmake/Boost-1.70.0
           -G "Unix Makefiles"
@@ -75,3 +76,49 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/install/bin
           ./dlopen_singleton
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Pre-requisites
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          choco install wget --no-progress
+          set BOOST_VERSION_=1_70_0
+          set BOOST_VERSION=1.70.0
+          set BOOST_ARCHIVE=boost_%BOOST_VERSION_%.tar.gz
+          set BOOST_DIRECTORY=boost_%BOOST_VERSION_%
+          set BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/%BOOST_VERSION%
+          wget -nv %BOOST_DOWNLOAD_URL%
+          7z x %BOOST_ARCHIVE%
+          7z x boost_%BOOST_VERSION_%.tar
+          cd boost_%BOOST_VERSION_%
+          call bootstrap.bat msvc
+          b2 -j 2 -sNO_BZIP2=1 install --prefix=%USERPROFILE%\boost-static --disable-icu --layout=system architecture=x86 address-model=64 variant=debug link=static runtime-link=static stage
+
+      - name: Checkout sources
+        uses: actions/checkout@v1
+
+      - name: Configure CMake
+        shell: cmd
+        run: >
+          cmake -S %GITHUB_WORKSPACE% -B %GITHUB_WORKSPACE%\build-windows
+          -DLIBRARY_TYPE=STATIC
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_INSTALL_PREFIX=%GITHUB_WORKSPACE%\install-static
+          -DMSVC_STATIC_RUNTIME_LIBRARY=ON
+          -DBoost_DIR=%USERPROFILE%\boost-static\lib\cmake\Boost-1.70.0
+          -G "NMake Makefiles"
+
+      - name: Build
+        shell: cmd
+        run: |
+          set CL=/MP
+          cmake --build %GITHUB_WORKSPACE%\build-windows --parallel 3
+
+      - name: Run
+       run: |
+         cd %GITHUB_WORKSPACE%\install-static\bin
+         dlopen_singleton
