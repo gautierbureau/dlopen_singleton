@@ -1,0 +1,42 @@
+name: CI
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install boost
+        run: |
+          BOOST_VERSION=1_70_0
+          BOOST_ARCHIVE=boost_${BOOST_VERSION}.tar.gz
+          BOOST_DIRECTORY=boost_$BOOST_VERSION
+          BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION//_/.}
+          wget --timeout 10 --tries 3 ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
+          tar xzf ${BOOST_ARCHIVE}
+          cd ${BOOST_DIRECTORY}
+          ./bootstrap.sh --prefix=$GITHUB_WORKSPACE/boost cxxstd=11 --without-icu --with-toolset=gcc --with-libraries=filesystem,program_options,serialization,system,log,iostreams
+          ./b2 -j 3 cxxflags="-std=c++11" toolset=gcc variant=release install
+
+      - name: Checkout sources
+        uses: actions/checkout@v1
+
+      - name: Configure CMake
+        run: >
+          cmake -S $GITHUB_WORKSPACE/SolutionBoostDll -B $GITHUB_WORKSPACE/build-linux
+          -DLIBRARY_TYPE=STATIC
+          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install
+          -DBoost_DIR=$GITHUB_WORKSPACE/boost/lib/cmake/Boost-1.70.0
+          -G "Unix Makefiles"
+
+      - name: Build
+        run: cmake --build $GITHUB_WORKSPACE/build-linux
+
+      - name: Run
+        run: |
+          cd $GITHUB_WORKSPACE/install/bin
+          ./dlopen_singleton
