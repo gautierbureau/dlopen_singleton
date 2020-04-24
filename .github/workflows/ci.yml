@@ -31,7 +31,7 @@ jobs:
           cmake -S $GITHUB_WORKSPACE/SolutionBoostDll -B $GITHUB_WORKSPACE/build-linux
           -DLIBRARY_TYPE=STATIC
           -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-static
-          -DBoost_DIR=$GITHUB_WORKSPACE/boost/lib/cmake/Boost-1.70.0
+          -DBoost_DIR=$HOME/boost/lib/cmake/Boost-1.70.0
           -G "Unix Makefiles"
 
       - name: Build
@@ -66,7 +66,7 @@ jobs:
           -DLIBRARY_TYPE=STATIC
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install
-          -DBoost_DIR=$GITHUB_WORKSPACE/boost/lib/cmake/Boost-1.70.0
+          -DBoost_DIR=$HOME/boost/lib/cmake/Boost-1.70.0
           -G "Unix Makefiles"
 
       - name: Build
@@ -86,15 +86,9 @@ jobs:
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           choco install wget --no-progress
-          set BOOST_VERSION_=1_70_0
-          set BOOST_VERSION=1.70.0
-          set BOOST_ARCHIVE=boost_%BOOST_VERSION_%.tar.gz
-          set BOOST_DIRECTORY=boost_%BOOST_VERSION_%
-          set BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/%BOOST_VERSION%
-          wget -nv %BOOST_DOWNLOAD_URL%
-          7z x %BOOST_ARCHIVE%
-          7z x boost_%BOOST_VERSION_%.tar
-          cd boost_%BOOST_VERSION_%
+          wget https://sourceforge.net/projects/boost/files/boost/1.70.0/boost_1_70_0.zip
+          7z x boost_1_70_0.zip
+          cd boost_1_70_0
           call bootstrap.bat msvc
           b2 -j 2 -sNO_BZIP2=1 install --prefix=%USERPROFILE%\boost-static --disable-icu --layout=system architecture=x86 address-model=64 variant=debug link=static runtime-link=static stage
 
