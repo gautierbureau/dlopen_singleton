@@ -31,7 +31,7 @@ static const char extension[] = ".so";
 
 int main() {
 
-	std::string name = "./lib" + std::string(sharedLibraryExtension());
+  std::string name = "./lib" + std::string(sharedLibraryExtension());
 
   boost::function<create_t> create_lib;
   boost::function<destroy_t> destroy_lib;
@@ -47,13 +47,13 @@ int main() {
     throw std::runtime_error("No symbol destroy in plugin.");
 
   Log::init();
+  
+  Trace("Log from main");
 
-	Log::log("Log from main");
+  // create an instance of the class
+  Lib* lib = create_lib();
 
-	// create an instance of the class
-	Lib* lib = create_lib();
-
-	lib->print();
+  lib->print();
 
   destroy_lib(lib);
 

@@ -7,12 +7,10 @@
 
 #include <string>
 
-class Log {
- public:
-  static Log& getInstance();
+extern "C" void Trace(const std::string& message);
 
-  static void log(const std::string& message);
-  
+class Log {
+ public:  
   static void init();
     
  private:
@@ -28,12 +26,15 @@ class Log {
 
   Log& operator=(Log&&) noexcept = delete;
   
+  static Log& getInstance();
+
+  static void log(const std::string& message);
+  
   void log_(const std::string& message);
   
   void init_();
+  
+  friend void Trace(const std::string& message);
 };
-
-extern "C" void Trace(const std::string& message);
-
 
 #endif //DLOPEN_SINGLETON_LOG_HPP
