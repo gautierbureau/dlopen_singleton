@@ -16,7 +16,7 @@ jobs:
           BOOST_ARCHIVE=boost_${BOOST_VERSION}.tar.gz
           BOOST_DIRECTORY=boost_$BOOST_VERSION
           BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION//_/.}
-          wget --timeout 10 --tries 3 ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
+          wget ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
           ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=gcc --with-libraries=filesystem,program_options,serialization,system,log,iostreams
@@ -56,7 +56,7 @@ jobs:
           BOOST_ARCHIVE=boost_${BOOST_VERSION}.tar.gz
           BOOST_DIRECTORY=boost_$BOOST_VERSION
           BOOST_DOWNLOAD_URL=https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION//_/.}
-          wget --timeout 10 --tries 3 ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
+          wget ${BOOST_DOWNLOAD_URL}/${BOOST_ARCHIVE}
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
           ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=clang --with-libraries=filesystem,program_options,serialization,system,log,iostreams
@@ -127,7 +127,7 @@ jobs:
         shell: cmd
         run:
           cmake --install %GITHUB_WORKSPACE%\build-windows
-          
+
       - name: Run
         shell: cmd
         run: |
