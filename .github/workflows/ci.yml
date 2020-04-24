@@ -120,8 +120,7 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          set CL=/MP
-          cmake --build %GITHUB_WORKSPACE%\build-windows --parallel 3
+          cmake --build %GITHUB_WORKSPACE%\build-windows
 
       - name: Build
         shell: cmd
@@ -131,5 +130,5 @@ jobs:
       - name: Run
         shell: cmd
         run: |
-          cd %GITHUB_WORKSPACE%\install-static
+          cd %GITHUB_WORKSPACE%\install-static\bin
           dlopen_singleton

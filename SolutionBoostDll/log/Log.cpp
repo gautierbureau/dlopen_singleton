@@ -12,7 +12,7 @@
 
 Log::Log() { std::cout << "Log::Log" << std::endl; }
 
-Log::~Log() { std::cout << "Log::~Log "; }
+Log::~Log() { std::cout << "Log::~Log" << std::endl; }
 
 void Log::init() {
 	getInstance().init_();
