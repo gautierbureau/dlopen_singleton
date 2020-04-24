@@ -12,8 +12,6 @@ endif()
 
 project(dlopen_singleton)
 
-message("Boost_DIR ${Boost_DIR}")
-
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 

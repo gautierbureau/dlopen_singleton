@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: cmake --build $GITHUB_WORKSPACE/build-linux
 
+      - name: Install
+        run: cmake --install $GITHUB_WORKSPACE/build-linux
+
       - name: Run
         run: |
           cd $GITHUB_WORKSPACE/install-static/bin
@@ -65,23 +68,26 @@ jobs:
           cmake -S $GITHUB_WORKSPACE/SolutionBoostDll -B $GITHUB_WORKSPACE/build-macos
           -DLIBRARY_TYPE=STATIC
           -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install
+          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install-static
           -DBoost_DIR=$HOME/boost/lib/cmake/Boost-1.70.0
           -G "Unix Makefiles"
 
       - name: Build
         run: cmake --build $GITHUB_WORKSPACE/build-macos
 
+      - name: Build
+        run: cmake --install $GITHUB_WORKSPACE/build-macos
+
       - name: Run
         run: |
-          cd $GITHUB_WORKSPACE/install/bin
+          cd $GITHUB_WORKSPACE/install-static/bin
           ./dlopen_singleton
 
   windows:
     name: Windows
     runs-on: windows-latest
     steps:
-      - name: Pre-requisites
+      - name: Install boost
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
@@ -98,7 +104,7 @@ jobs:
       - name: Configure CMake
         shell: cmd
         run: >
-          cmake -S %GITHUB_WORKSPACE% -B %GITHUB_WORKSPACE%\build-windows
+          cmake -S %GITHUB_WORKSPACE%\SolutionBoostDll -B %GITHUB_WORKSPACE%\build-windows
           -DLIBRARY_TYPE=STATIC
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_INSTALL_PREFIX=%GITHUB_WORKSPACE%\install-static
@@ -111,3 +117,10 @@ jobs:
         run: |
           set CL=/MP
           cmake --build %GITHUB_WORKSPACE%\build-windows --parallel 3
+          cmake --install %GITHUB_WORKSPACE%\build-windows
+
+      - name: Run
+        shell: cmd
+        run: |
+          cd %GITHUB_WORKSPACE%\install-static
+          dlopen_singleton
