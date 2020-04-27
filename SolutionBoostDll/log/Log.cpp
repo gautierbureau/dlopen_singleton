@@ -15,11 +15,11 @@ Log::Log() { std::cout << "Log::Log" << std::endl; }
 Log::~Log() { std::cout << "Log::~Log" << std::endl; }
 
 void Log::init() {
-	getInstance().init_();
+  getInstance().init_();
 }
 
 void Log::init_() {
-	boost::log::add_file_log("sample.log");
+  boost::log::add_file_log("sample.log");
 
   boost::log::core::get()->set_filter
   (
@@ -29,21 +29,21 @@ void Log::init_() {
 }
 
 void Log::log(const std::string& message) {
-	getInstance().log_(message);
+  getInstance().log_(message);
 }
 
 void Log::log_(const std::string& message) {
-	boost::log::sources::severity_logger< boost::log::trivial::severity_level > lg;
+  boost::log::sources::severity_logger< boost::log::trivial::severity_level > lg;
 
-	BOOST_LOG_SEV(lg, boost::log::trivial::info) << message;
+  BOOST_LOG_SEV(lg, boost::log::trivial::info) << message;
 }
 
 Log&
 Log::getInstance() {
-	static Log instance;
-	return instance;
+  static Log instance;
+  return instance;
 }
 
 extern "C" void Trace(const std::string& message) {
-	Log::log(message);
+  Log::log(message);
 }
