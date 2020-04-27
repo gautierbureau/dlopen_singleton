@@ -18,9 +18,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(LIBRARY_TYPE SHARED CACHE STRING "Choose either STATIC or SHARED.")
 set(MSVC_STATIC_RUNTIME_LIBRARY OFF CACHE BOOL "Choose either ON or OFF.")
 
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)    # export all symbols from dll on Windows
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # export all symbols from dll on Windows
 if(LIBRARY_TYPE STREQUAL "STATIC")
-  set(CMAKE_ENABLE_EXPORTS ON)                # export all symbols from exe on Windows
+  set(CMAKE_ENABLE_EXPORTS ON) # export all symbols from exe on Windows
 endif()
 
 if(UNIX)
