@@ -20,7 +20,7 @@ jobs:
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
           ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=gcc --with-libraries=filesystem,program_options,serialization,system,log,iostreams
-          ./b2 -j 3 cxxflags="-std=c++11" toolset=gcc variant=release install
+          ./b2 -j 3 cxxflags="-std=c++11 -fPIC" toolset=gcc variant=release install
           ls $HOME/boost/lib/cmake/Boost-1.70.0
 
       - name: Checkout sources
@@ -60,7 +60,7 @@ jobs:
           tar xzf ${BOOST_ARCHIVE}
           cd ${BOOST_DIRECTORY}
           ./bootstrap.sh --prefix=$HOME/boost cxxstd=11 --without-icu --with-toolset=clang --with-libraries=filesystem,program_options,serialization,system,log,iostreams
-          ./b2 -j 3 cxxflags="-std=c++11" toolset=clang variant=release install
+          ./b2 -j 3 cxxflags="-std=c++11 -fPIC" toolset=clang variant=release install
 
       - name: Checkout sources
         uses: actions/checkout@v1

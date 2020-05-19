@@ -10,7 +10,10 @@ target_include_directories(lib
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
-  
+
+target_link_libraries(lib PRIVATE $<TARGET_FILE:common>)
+target_include_directories(lib PRIVATE $<TARGET_PROPERTY:common,INTERFACE_INCLUDE_DIRECTORIES>)
+
 if(LIBRARY_TYPE STREQUAL "STATIC")
   target_include_directories(lib PUBLIC $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
   if(MSVC OR APPLE)

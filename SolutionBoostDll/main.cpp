@@ -4,6 +4,7 @@
 
 #include "LibInstance.hpp"
 #include "Log.hpp"
+#include "Common.hpp"
 
 const char* sharedLibraryExtension() {
 #ifdef _WIN32
@@ -40,6 +41,9 @@ int main() {
   Log::init();
 
   Trace("Log from main");
+
+  Common c;
+  c.common();
 
   // create an instance of the class
   Lib* lib = create_lib();

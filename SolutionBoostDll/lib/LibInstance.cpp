@@ -9,11 +9,14 @@
 #endif
 
 #include "LibInstance.hpp"
+#include "Common.hpp"
 
 LibInstance::LibInstance() {}
 
 void LibInstance::print() {
   Trace("Log from lib");
+  Common c;
+  c.common();
 }
 
 extern "C" DLL_PUBLIC Lib* create() {

@@ -68,6 +68,7 @@ find_package(Boost 1.70.0 REQUIRED
   NO_CMAKE_PATH
   )
 
+add_subdirectory(common)
 add_subdirectory(log)
 add_subdirectory(lib)
 
@@ -76,6 +77,7 @@ add_dependencies(dlopen_singleton log)
 
 target_link_libraries(dlopen_singleton PRIVATE ${CMAKE_DL_LIBS})
 target_link_libraries(dlopen_singleton PRIVATE Boost::filesystem)
+target_link_libraries(dlopen_singleton PRIVATE common)
 
 if(LIBRARY_TYPE STREQUAL "STATIC")
   if(MSVC)

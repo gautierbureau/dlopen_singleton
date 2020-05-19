@@ -1,6 +1,6 @@
 set(log_sources Log.cpp)
 
-set(log_headers log.hpp)
+set(log_headers Log.hpp)
 
 add_library(log ${LIBRARY_TYPE} ${log_sources})
 
