@@ -15,21 +15,15 @@ target_include_directories(lib
 target_link_libraries(lib
   PRIVATE
     api
-    $<TARGET_FILE:lib-common>
-    $<TARGET_FILE:common>
-  )
-target_include_directories(lib
-  PRIVATE
-    $<TARGET_PROPERTY:api,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:common,INTERFACE_INCLUDE_DIRECTORIES>
-    $<TARGET_PROPERTY:lib-common,INTERFACE_INCLUDE_DIRECTORIES>
+    lib-common
+    common
   )
 
 if(LIBRARY_TYPE STREQUAL "STATIC")
   target_include_directories(lib PRIVATE $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
-#  if(MSVC OR APPLE)
-#    target_link_libraries(lib PRIVATE dlopen_singleton)
-#  endif()
+  if(MSVC OR APPLE)
+    target_link_libraries(lib PRIVATE dlopen_singleton)
+  endif()
 else()
   target_link_libraries(lib PRIVATE log)
 endif()
