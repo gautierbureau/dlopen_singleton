@@ -14,7 +14,7 @@ target_include_directories(lib
 
 target_link_libraries(lib
   PRIVATE
-    $<TARGET_FILE:api>
+    api
     $<TARGET_FILE:lib-common>
     $<TARGET_FILE:common>
   )
