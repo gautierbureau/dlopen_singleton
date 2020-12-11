@@ -69,15 +69,19 @@ find_package(Boost 1.70.0 REQUIRED
   )
 
 add_subdirectory(common)
+add_subdirectory(api)
 add_subdirectory(log)
+add_subdirectory(lib-common)
 add_subdirectory(lib)
 
 add_executable(dlopen_singleton main.cpp main_exports.def)
-add_dependencies(dlopen_singleton log)
+#add_dependencies(dlopen_singleton log) # was there when I used $<TARGET_FILE:log> instead of a target to link to main
 
 target_link_libraries(dlopen_singleton PRIVATE ${CMAKE_DL_LIBS})
 target_link_libraries(dlopen_singleton PRIVATE Boost::filesystem)
 target_link_libraries(dlopen_singleton PRIVATE common)
+target_link_libraries(dlopen_singleton PRIVATE api)
+target_link_libraries(dlopen_singleton PRIVATE lib-common)
 
 if(LIBRARY_TYPE STREQUAL "STATIC")
   if(MSVC)
@@ -95,8 +99,6 @@ if(LIBRARY_TYPE STREQUAL "STATIC")
 else()
   target_link_libraries(dlopen_singleton PRIVATE log)
 endif()
-
-target_include_directories(dlopen_singleton PRIVATE $<TARGET_PROPERTY:lib,INTERFACE_INCLUDE_DIRECTORIES>)
 
 if(NOT MSVC)
   if(LIBRARY_TYPE STREQUAL "STATIC")

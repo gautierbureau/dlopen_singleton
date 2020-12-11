@@ -10,6 +10,7 @@
 
 #include "LibInstance.hpp"
 #include "Common.hpp"
+#include "Api.hpp"
 
 LibInstance::LibInstance() {}
 
@@ -17,6 +18,8 @@ void LibInstance::print() {
   Trace("Log from lib");
   Common c;
   c.common();
+  Api api;
+  api.api();
 }
 
 extern "C" DLL_PUBLIC Lib* create() {

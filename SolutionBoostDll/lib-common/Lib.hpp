@@ -22,6 +22,12 @@ class Lib {
   Lib& operator=(Lib&&) noexcept = delete;
 
   virtual void print() = 0;
+
+  void common();
 };
+
+// the types of the class factories
+typedef Lib* create_t();
+typedef void destroy_t(Lib*);
 
 #endif //DLOPEN_SINGLETON_LIB_HPP

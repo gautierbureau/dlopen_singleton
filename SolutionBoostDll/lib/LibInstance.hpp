@@ -24,8 +24,4 @@ class LibInstance : public Lib {
   void print();
 };
 
-// the types of the class factories
-typedef Lib* create_t();
-typedef void destroy_t(Lib*);
-
 #endif //DLOPEN_SINGLETON_LIBINSTANCE_HPP

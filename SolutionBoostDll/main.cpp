@@ -2,9 +2,10 @@
 #include <boost/dll/shared_library.hpp>
 #include <boost/function.hpp>
 
-#include "LibInstance.hpp"
+#include "Lib.hpp"
 #include "Log.hpp"
 #include "Common.hpp"
+#include "Api.hpp"
 
 const char* sharedLibraryExtension() {
 #ifdef _WIN32
@@ -45,9 +46,13 @@ int main() {
   Common c;
   c.common();
 
+  Api api;
+  api.api();
+
   // create an instance of the class
   Lib* lib = create_lib();
 
+  lib->common();
   lib->print();
 
   destroy_lib(lib);

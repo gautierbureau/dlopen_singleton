@@ -1,18 +1,29 @@
 set(lib_sources LibInstance.cpp)
 
-set(lib_headers Lib.hpp LibInstance.hpp)
+set(lib_headers LibInstance.hpp)
 
 add_library(lib MODULE ${lib_sources})
 
 target_include_directories(lib
   INTERFACE
     $<INSTALL_INTERFACE:include>
+    $<TARGET_PROPERTY:lib-common,INTERFACE_INCLUDE_DIRECTORIES>
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
 
-target_link_libraries(lib PRIVATE $<TARGET_FILE:common>)
-target_include_directories(lib PRIVATE $<TARGET_PROPERTY:common,INTERFACE_INCLUDE_DIRECTORIES>)
+target_link_libraries(lib
+  PRIVATE
+    $<TARGET_FILE:api>
+    $<TARGET_FILE:lib-common>
+    $<TARGET_FILE:common>
+  )
+target_include_directories(lib
+  PRIVATE
+    $<TARGET_PROPERTY:api,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:common,INTERFACE_INCLUDE_DIRECTORIES>
+    $<TARGET_PROPERTY:lib-common,INTERFACE_INCLUDE_DIRECTORIES>
+  )
 
 if(LIBRARY_TYPE STREQUAL "STATIC")
   target_include_directories(lib PRIVATE $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
