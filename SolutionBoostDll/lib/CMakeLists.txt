@@ -21,9 +21,9 @@ target_link_libraries(lib
 
 if(LIBRARY_TYPE STREQUAL "STATIC")
   target_include_directories(lib PRIVATE $<TARGET_PROPERTY:log,INTERFACE_INCLUDE_DIRECTORIES>)
-  if(MSVC OR APPLE)
-    target_link_libraries(lib PRIVATE dlopen_singleton)
-  endif()
+#  if(MSVC OR APPLE)
+#    target_link_libraries(lib PRIVATE dlopen_singleton)
+#  endif()
 else()
   target_link_libraries(lib PRIVATE log)
 endif()
