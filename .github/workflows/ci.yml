@@ -118,6 +118,8 @@ jobs:
 
       - name: Build
         shell: cmd
+        env:
+          VERBOSE: 1
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           cmake --build %GITHUB_WORKSPACE%\build-windows
