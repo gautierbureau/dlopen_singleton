@@ -99,7 +99,7 @@ jobs:
           7z x boost_1_70_0.zip
           cd boost_1_70_0
           call bootstrap.bat msvc
-          b2 -j 2 -sNO_BZIP2=1 install --prefix=%USERPROFILE%\boost-static --disable-icu --layout=system architecture=x86 address-model=64 variant=debug link=static runtime-link=static stage
+          b2 -j 2 -sNO_BZIP2=1 install --prefix=%USERPROFILE%\boost-static --disable-icu --layout=system architecture=x86 address-model=64 variant=release link=static runtime-link=static stage
 
       - name: Checkout sources
         uses: actions/checkout@v1
@@ -110,7 +110,7 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           cmake -S %GITHUB_WORKSPACE%\SolutionBoostDll -B %GITHUB_WORKSPACE%\build-windows ^
           -DLIBRARY_TYPE=STATIC ^
-          -DCMAKE_BUILD_TYPE=Debug ^
+          -DCMAKE_BUILD_TYPE=Release ^
           -DCMAKE_INSTALL_PREFIX=%GITHUB_WORKSPACE%\install-static ^
           -DMSVC_STATIC_RUNTIME_LIBRARY=ON ^
           -DBoost_DIR=%USERPROFILE%\boost-static\lib\cmake\Boost-1.70.0 ^
