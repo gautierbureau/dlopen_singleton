@@ -7,12 +7,12 @@
 
 #include <string>
 
-extern "C" void Trace(const std::string& message);
+extern "C" void Trace(const std::string& message = "default");
 
 class Log {
- public:  
+ public:
   static void init();
-    
+
  private:
   Log();
 
@@ -25,15 +25,15 @@ class Log {
   Log& operator=(const Log&) = delete;
 
   Log& operator=(Log&&) noexcept = delete;
-  
+
   static Log& getInstance();
 
   static void log(const std::string& message);
-  
+
   void log_(const std::string& message);
-  
+
   void init_();
-  
+
   friend void Trace(const std::string& message);
 };
 

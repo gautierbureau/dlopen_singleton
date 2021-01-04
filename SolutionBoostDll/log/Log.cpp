@@ -38,8 +38,7 @@ void Log::log_(const std::string& message) {
   BOOST_LOG_SEV(lg, boost::log::trivial::info) << message;
 }
 
-Log&
-Log::getInstance() {
+Log& Log::getInstance() {
   static Log instance;
   return instance;
 }

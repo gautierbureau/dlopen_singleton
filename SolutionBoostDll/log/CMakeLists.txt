@@ -1,6 +1,6 @@
-set(log_sources Log.cpp)
+set(log_sources Log.cpp Util.cpp)
 
-set(log_headers Log.hpp)
+set(log_headers Log.hpp Util.hpp)
 
 add_library(log ${LIBRARY_TYPE} ${log_sources})
 
@@ -10,7 +10,7 @@ target_include_directories(log
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
-  
+
 target_link_libraries(log PRIVATE Boost::log)
 
 if(LIBRARY_TYPE STREQUAL "SHARED")
