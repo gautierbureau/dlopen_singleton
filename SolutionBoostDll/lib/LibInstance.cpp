@@ -11,6 +11,7 @@
 #include "LibInstance.hpp"
 #include "Common.hpp"
 #include "Api.hpp"
+#include "Util.hpp"
 
 LibInstance::LibInstance() {}
 
@@ -20,6 +21,8 @@ void LibInstance::print() {
   c.common();
   Api api;
   api.api();
+  Util u;
+  u.util();
 }
 
 extern "C" DLL_PUBLIC Lib* create() {

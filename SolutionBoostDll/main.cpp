@@ -6,6 +6,7 @@
 #include "Log.hpp"
 #include "Common.hpp"
 #include "Api.hpp"
+#include "Util.hpp"
 
 const char* sharedLibraryExtension() {
 #ifdef _WIN32
@@ -48,6 +49,9 @@ int main() {
 
   Api api;
   api.api();
+
+  Util u;
+  u.util();
 
   // create an instance of the class
   Lib* lib = create_lib();

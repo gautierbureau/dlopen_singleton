@@ -9,6 +9,7 @@
 #include <boost/log/utility/setup/file.hpp>
 
 #include "Log.hpp"
+#include "Util.hpp"
 
 Log::Log() { std::cout << "Log::Log" << std::endl; }
 
@@ -16,6 +17,9 @@ Log::~Log() { std::cout << "Log::~Log" << std::endl; }
 
 void Log::init() {
   getInstance().init_();
+  Trace("log init");
+  Util u;
+  u.util();
 }
 
 void Log::init_() {
